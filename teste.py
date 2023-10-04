@@ -2,7 +2,7 @@ import requests
 
 API_KEY = 'AIzaSyB2bwXAFvbficNF1riIZD9NP_ugcvgmez4'
 
-# URL da API para busca de vídeos
+# URL da API para busca de playlists
 url = 'https://www.googleapis.com/youtube/v3/search'
 
 pesquisa = input('Digite o termo de busca: ')
@@ -12,7 +12,7 @@ print('\n\n')
 params = {
     'key': API_KEY,
     'q': pesquisa,
-    'type': 'video',        # Você pode especificar o tipo de resultado (vídeo, canal, playlist, etc.)
+    'type': 'playlist',        # Especificar o tipo de resultado como "playlist"
     'part': 'snippet',      # Partes dos dados que você deseja incluir na resposta (snippet é comum)
     'maxResults': 10        # Número máximo de resultados a serem retornados
 }
@@ -25,9 +25,8 @@ data = response.json()
 
 # Examine os resultados
 for item in data['items']:
-    video_id = item['id']['videoId']
-    video_title = item['snippet']['title']
-    # print(f'Video ID: {video_id}')
-    print(f'Título do Vídeo: {video_title}')
-    print(f'Link do Vídeo: https://www.youtube.com/watch?v={video_id}')
+    playlist_id = item['id']['playlistId']  # Obtenha o ID da playlist
+    playlist_title = item['snippet']['title']  # Obtenha o título da playlist
+    print(f'Título da Playlist: {playlist_title}')
+    print(f'Link da Playlist: https://www.youtube.com/playlist?list={playlist_id}')
     print('---')
