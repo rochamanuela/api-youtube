@@ -30,7 +30,7 @@ print('_'*40)
 
 """
 
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, HTTPException, status, Response
 from models import Music
 
 app = FastAPI()
@@ -82,6 +82,14 @@ async def get_music(music_id : int):
         return music
     except KeyError:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='music not found :(')
+    
+##@app.get('/musics/{genre}')
+##async def get_music_by_genre(genre: str):
+##    try:
+##       music = songs(genre)
+##        return music
+##   except KeyError:
+##        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='invalid genre')
   
    
 @app.post('/musics')
@@ -102,8 +110,6 @@ async def put_music(music_id: int, music: Music):
     else:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="this music not exists (;-;)")
     
-from fastapi import Response
-
 
 @app.delete('/musics/{music_id}')
 async def delete_musics(music_id: int):
