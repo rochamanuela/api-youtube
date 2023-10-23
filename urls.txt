@@ -1,0 +1,23 @@
+- get songs -> http://127.0.0.1:8000/musics
+
+- get song -> http://127.0.0.1:8000/musics/1
+
+- post song -> http://127.0.0.1:8000/musics
+{
+    "name": "Why",
+    "artist": "Shawn Mendes",
+    "year": 2018,
+    "album": "Shawn Mendes",
+    "genre": "Pop"
+}
+
+- put song -> http://127.0.0.1:8000/musics/5
+{
+    "name": "Why",
+    "artist": "Shawn Mendes",
+    "year": 2010,
+    "album": "Shawn Mendes",
+    "genre": "Pop"
+}
+
+- del song -> http://127.0.0.1:8000/musics/5
