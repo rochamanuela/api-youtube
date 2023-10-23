@@ -40,7 +40,6 @@ songs = {
     }
 }
 
-# Default methods (get, post, put and delete)
 
 @app.get ('/musics')
 async def get_musics():
@@ -51,11 +50,11 @@ async def get_musics():
 async def get_music(music_id : int):
     try:
         music = songs[music_id]
-
+        
         API_KEY = 'AIzaSyB2bwXAFvbficNF1riIZD9NP_ugcvgmez4'
         url = 'https://www.googleapis.com/youtube/v3/search'
 
-        search = songs[album]
+        search = songs[music_id]['album']
 
         params = {
             'key': API_KEY,
@@ -68,8 +67,9 @@ async def get_music(music_id : int):
         response = requests.get(url, params=params)
         data = response.json()
 
-        playlist_id = ['id']['playlistId']
-        print(f'Playlist Link: https://www.youtube.com/playlist?list={playlist_id}')
+        for item in data['items']:
+            playlist_id = item['id']['playlistId']
+            print(f'Link da Playlist: https://www.youtube.com/playlist?list={playlist_id}')
         
         return music
     except KeyError:
@@ -81,7 +81,7 @@ async def post_music(music: Music):
     last_key = sorted(songs.keys())[-1]
     next_key = last_key + 1
     music.id = next_key
-    songs[next_key] = music
+    songs[next_key] = dict(music)
     return music
 
 
