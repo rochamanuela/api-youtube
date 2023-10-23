@@ -1,37 +1,7 @@
-"""
-From this point on, the api is being integrated with an external api,
-in this case, a YouTube data API. The aim is to return the album link.
-
-
-import requests
-
-API_KEY = 'AIzaSyB2bwXAFvbficNF1riIZD9NP_ugcvgmez4'
-url = 'https://www.googleapis.com/youtube/v3/search' # Default URL for playlist search
-
-search = input('Digite o termo de busca: ')
-print('\n\n')
-
-params = {
-    'key': API_KEY,
-    'q': search,
-    'type': 'playlist',
-    'part': 'snippet',
-    'maxResults': 1
-}
-
-response = requests.get(url, params=params)
-data = response.json()
-
-playlist_id = ['id']['playlistId']
-playlist_title = ['snippet']['title']
-print(f'Playlist Title: {playlist_title}')
-print(f'Playlist Link: https://www.youtube.com/playlist?list={playlist_id}')
-print('_'*40)
-
-"""
-
 from fastapi import FastAPI, HTTPException, status, Response
 from models import Music
+
+import requests
 
 app = FastAPI()
 
@@ -70,26 +40,40 @@ songs = {
     }
 }
 
+# Default methods (get, post, put and delete)
 
 @app.get ('/musics')
 async def get_musics():
     return songs
 
+
 @app.get ('/musics/{music_id}')
 async def get_music(music_id : int):
     try:
         music = songs[music_id]
+
+        API_KEY = 'AIzaSyB2bwXAFvbficNF1riIZD9NP_ugcvgmez4'
+        url = 'https://www.googleapis.com/youtube/v3/search'
+
+        search = songs[album]
+
+        params = {
+            'key': API_KEY,
+            'q': search,
+            'type': 'playlist',
+            'part': 'snippet',
+            'maxResults': 1
+        }
+
+        response = requests.get(url, params=params)
+        data = response.json()
+
+        playlist_id = ['id']['playlistId']
+        print(f'Playlist Link: https://www.youtube.com/playlist?list={playlist_id}')
+        
         return music
     except KeyError:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='music not found :(')
-    
-##@app.get('/musics/{genre}')
-##async def get_music_by_genre(genre: str):
-##    try:
-##       music = songs(genre)
-##        return music
-##   except KeyError:
-##        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='invalid genre')
   
    
 @app.post('/musics')

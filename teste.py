@@ -12,7 +12,7 @@ print('\n\n')
 params = {
     'key': API_KEY,
     'q': pesquisa,
-    'type': 'playlist',        # Especificar o tipo de resultado como "playlist"
+    'type': 'playlist',     # Especificar o tipo de resultado como "playlist"
     'part': 'snippet',      # Partes dos dados que você deseja incluir na resposta (snippet é comum)
     'maxResults': 10        # Número máximo de resultados a serem retornados
 }
